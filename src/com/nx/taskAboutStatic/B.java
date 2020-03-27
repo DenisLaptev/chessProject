@@ -1,10 +1,13 @@
 package com.nx.taskAboutStatic;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class B {
 
-    public static boolean USER_ID = true;
+    public static String USER_ID = "someParam";
 
-    public void showUser(boolean userId, long longParam) {
-        System.out.println("Hello! userId="+userId+"longParam="+longParam);
+    public void showUser(Map<String,Long> params) {
+        System.out.println("Hello! params=" + params);
     }
 }
