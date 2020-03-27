@@ -8,9 +8,6 @@ public class Main {
 
     public static final int SQUARE_SIDE = 3;
 
-    public static final char BLACK_SQUARE_SIMBOL = 'X';
-    public static final char WHITE_SQUARE_SIMBOL = ' ';
-
     public static final String ENTER_WIDTH_MESSAGE = "Enter Width:";
     public static final String ENTER_HIGHT_MESSAGE = "Enter Height:";
 
@@ -26,20 +23,6 @@ public class Main {
             e.printStackTrace();
         }
         return number;
-    }
-
-    public static char getPixelChar(int xPos, int yPos, int squareSide) {
-
-        char pixelChar = BLACK_SQUARE_SIMBOL;
-
-        int xIntDiv = xPos / squareSide;
-        int yIntDiv = yPos / squareSide;
-
-        if (((xIntDiv % 2 == 0) && (yIntDiv % 2 == 0))
-                || ((xIntDiv % 2 != 0) && (yIntDiv % 2 != 0))) {
-            pixelChar = WHITE_SQUARE_SIMBOL;
-        }
-        return pixelChar;
     }
 
     public static void process2DArray(char[][] chessDesk2DArray,
@@ -63,11 +46,8 @@ public class Main {
 
         char[][] chessDesk2DArray = new char[yPixelsNumber][xPixelsNumber];
 
-        PixelProcessor pixelInitializer = new PixelInitializer();
-        process2DArray(chessDesk2DArray, xPixelsNumber, yPixelsNumber, SQUARE_SIDE, pixelInitializer);
+        process2DArray(chessDesk2DArray, xPixelsNumber, yPixelsNumber, SQUARE_SIDE, new PixelInitializer());
 
-        PixelProcessor pixelPrinter = new PixelPrinter();
-        process2DArray(chessDesk2DArray, xPixelsNumber, yPixelsNumber, SQUARE_SIDE, pixelPrinter);
-
+        process2DArray(chessDesk2DArray, xPixelsNumber, yPixelsNumber, SQUARE_SIDE, new PixelPrinter());
     }
 }
