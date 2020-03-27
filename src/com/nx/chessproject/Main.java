@@ -14,13 +14,17 @@ public class Main {
     public static final String ENTER_WIDTH_MESSAGE = "Enter Width:";
     public static final String ENTER_HIGHT_MESSAGE = "Enter Height:";
 
-    public static int numberConsoleInput(String message) throws IOException {
+    public static int numberConsoleInput(String message) {
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println(message);
 
-        int number = Integer.parseInt(bufferedReader.readLine());
-
+        int number = 0;
+        try {
+            number = Integer.parseInt(bufferedReader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return number;
     }
 
@@ -38,55 +42,32 @@ public class Main {
         return pixelChar;
     }
 
-    public static char[][] getChessDesk2DArray(int colsNumber, int rowsNumber, int squareSide) {
-
-        int yPixelsNumber = squareSide * rowsNumber;
-        int xPixelsNumber = squareSide * colsNumber;
-
-        char[][] chessDesk2DArray = new char[yPixelsNumber][xPixelsNumber];
+    public static void process2DArray(char[][] chessDesk2DArray,
+                                      int xPixelsNumber, int yPixelsNumber, int squareSide,
+                                      PixelProcessor pixelProcessor) {
 
         for (int iy = 0; iy < yPixelsNumber; iy++) {
-
             for (int ix = 0; ix < xPixelsNumber; ix++) {
-
-                char pixelChar = getPixelChar(ix, iy, squareSide);
-                chessDesk2DArray[iy][ix] = pixelChar;
+                pixelProcessor.processPixel(chessDesk2DArray, ix, iy, squareSide, xPixelsNumber);
             }
-        }
-
-        return chessDesk2DArray;
-    }
-
-
-    public static void printChessDesk(char[][] chessDesk2DArray) {
-
-        for (char[] row : chessDesk2DArray) {
-            for (char element : row) {
-                System.out.print(element);
-            }
-            System.out.println();
         }
     }
 
     public static void main(String[] args) {
 
-        int width = 0;
-        int height = 0;
+        int width = numberConsoleInput(ENTER_WIDTH_MESSAGE);
+        int height = numberConsoleInput(ENTER_HIGHT_MESSAGE);
 
-        try {
-            width = numberConsoleInput(ENTER_WIDTH_MESSAGE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        int xPixelsNumber = SQUARE_SIDE * width;
+        int yPixelsNumber = SQUARE_SIDE * height;
 
-        try {
-            height = numberConsoleInput(ENTER_HIGHT_MESSAGE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        char[][] chessDesk2DArray = new char[yPixelsNumber][xPixelsNumber];
 
-        char[][] chessDesk2DArray = getChessDesk2DArray(width, height, SQUARE_SIDE);
+        PixelProcessor pixelInitializer = new PixelInitializer();
+        process2DArray(chessDesk2DArray, xPixelsNumber, yPixelsNumber, SQUARE_SIDE, pixelInitializer);
 
-        printChessDesk(chessDesk2DArray);
+        PixelProcessor pixelPrinter = new PixelPrinter();
+        process2DArray(chessDesk2DArray, xPixelsNumber, yPixelsNumber, SQUARE_SIDE, pixelPrinter);
+
     }
 }
